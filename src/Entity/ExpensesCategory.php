@@ -26,6 +26,8 @@ class ExpensesCategory
         return $this->id;
     }
 
+
+
     public function getCategoryName(): ?string
     {
         return $this->categoryName;
@@ -49,4 +51,6 @@ class ExpensesCategory
 
         return $this;
     }
+
+
 }

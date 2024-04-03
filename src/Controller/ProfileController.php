@@ -46,7 +46,10 @@ class ProfileController extends AbstractController{
                     'form' => $form->createView(),
                 ]);
             }
-
+           $expensesCategory = $form->get('expensesCategory')->getData();
+            foreach ($expensesCategory as $category) {
+                $profile->addExpensesCategory($category);
+            }
             $user->addProfile($profile);
             $entityManager->persist($profile);
             $entityManager->flush();
