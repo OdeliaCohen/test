@@ -55,7 +55,7 @@
         </div>
 
         {{ form_start(form) }}
-
+        {{ form_errors(form) }}
         {{ form_row(form.profileType, {'attr': {'class': 'form-control'}}) }}
         {{ form_row(form.profileBudget, {
             'attr': {

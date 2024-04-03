@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function PHPUnit\Framework\returnArgument;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormError;
 
 class ProfileController extends AbstractController{
 
@@ -29,22 +30,29 @@ class ProfileController extends AbstractController{
     #[Route('/profile/new_profile', name: 'new_profile')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
+        $user = $this->getUser();
         $profile = new Profile();
         $form = $this->createForm(AccueilFormType::class, $profile);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $profile->addUser($user);
+            $profileType = $form->getData()->getProfileType();
+            if ($user->getProfiles()->exists(function ($key, $profile) use ($profileType) {
+                return $profile->getProfileType() === $profileType;
+            })) {
+                // Add an error message to the form
+                $form->addError(new FormError('You already have this type of profile!'));
+                return $this->render('profile/profile.html.twig', [
+                    'controller_name' => 'ProfileController',
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $entityManager->persist($profile);
             $entityManager->flush();
-            $formData = $form->getData();
 
-
-
-            $profileType = $formData->getProfileType();
-
-            switch ($profileType) {
+            // Redirect the user to the appropriate page
+            switch ($form->getData()->getProfileType()) {
                 case 'Student':
                     return $this->redirectToRoute('budget_student');
                 case 'Traveler':
@@ -58,15 +66,11 @@ class ProfileController extends AbstractController{
                 default:
                     return $this->redirectToRoute('budget_accueil');
             }
-
-
-
-
         }
+
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'form' => $form->createView(),
-
         ]);
     }
 
