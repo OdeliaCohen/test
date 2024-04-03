@@ -128,7 +128,7 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 59, $this->source); })()), "profileBudget", [], "any", false, false, false, 59), 'row', ["attr" => ["class" => "form-control", "placeholder" => "Enter your budget in \$..."]]);
         // line 64
         echo "
-        
+
 
 
         <button type=\"submit\" class=\"btn btn-primary\">Register</button>
@@ -249,7 +249,7 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
                 'placeholder': 'Enter your budget in \$...',
             }
         }) }}
-        
+
 
 
         <button type=\"submit\" class=\"btn btn-primary\">Register</button>
@@ -268,6 +268,6 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
 
 </body>
 </html>
-", "profile/profile.html.twig", "C:\\laragon\\www\\Projet_Dev\\templates\\Profile\\profile.html.twig");
+", "profile/profile.html.twig", "C:\\laragon\\www\\Projet\\templates\\Profile\\profile.html.twig");
     }
 }

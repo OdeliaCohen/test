@@ -8,13 +8,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccueilFormType extends AbstractType
 {
-    use ExpensesCategoryChoiceLabelTrait;
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -45,25 +44,7 @@ class AccueilFormType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                $form = $event->getForm();
-                $profile = $event->getData();
-                if ($profile instanceof Profile) {
-                    $profileType = $profile->getProfileType();
-                    $categories = $this->configureCategories($profileType);
-                    $form->add('expensesCategory', CollectionType::class, [
-                        'entry_type' => ChoiceType::class,
-                        'entry_options' => [
-                            'choices' => $categories['categories'],
-                            'choice_label' => fn (string $category) => $category,
-                        ],
-                        'allow_add' => true,
-                        'allow_delete' => true,
-                        'by_reference' => false,
-                    ]);
-                }
-            }); */
+            ]);*/
 }
 
     public function configureOptions(OptionsResolver $resolver): void
