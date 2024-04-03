@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ExpensesCategory;
 use App\Entity\Profile;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -17,35 +18,46 @@ class AccueilFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $profileType = $options['data'] instanceof Profile ? $options['data']->getProfileType() : null;
+        $profileType = $options['data']->getProfileType() ?? 'Student';
 
         $builder
 
             ->add('profileType', ChoiceType::class, [
-                'choices' => [
-                    'Student' => 'Student',
-                    'Traveler' => 'Traveler',
-                    'Investor' => 'Investor',
-                    'Parent' => 'Parent',
-                    'Couple' => 'Couple',
-                ],
-                'attr' => [
-                    'class' => 'custom-radio-button',
-                ],
+                'choices' => $this->profileType(),
+                'label' => 'Profile Type',
+                'data' => $profileType,
+
             ])
 
-            ->add('profileBudget');
-            /*->add('expensesCategory', CollectionType::class, [
+            ->add('profileBudget')
+            //en fonction du type de profil sélectionné par l'utilisateur, on va afficher les catégories de dépenses correspondantes
+            //l'utilisateur pourra ensuite sélectionner les catégories de dépenses qui l'intéressent
+            ->add('expensesCategory', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'entry_options' => [
-                    'choices' => $this->configureCategories($profileType),
+                    'choices' => $this->configureCategories($options['data']->getProfileType()),
                     'label' => false,
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            ]);*/
+                'empty_data' => new ArrayCollection(), // initialize expensesCategory as an empty array
+            ]);
+
 }
+
+
+    public function profileType(): array
+    {
+        return [
+            'Student' => 'Student',
+            'Traveler' => 'Traveler',
+            'Investor' => 'Investor',
+            'Parent' => 'Parent',
+            'Couple' => 'Couple',
+        ];
+    }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -54,36 +66,42 @@ class AccueilFormType extends AbstractType
         ]);
     }
 
+
+    //L'idée c'est de créer une fonction
+    // qui va retourner un tableau de catégories de dépenses en fonction du type de profil sélectionné par l'utlisateur
     private function configureCategories(string $profileType): array
     {
-        return match ($profileType) {
-            'Student' => [
-                'categories' => $this->getStudentCategories(),
-                'expensesCategory' => null,
-            ],
-            'Traveler' => [
-                'categories' => $this->getTravelerCategories(),
-                'expensesCategory' => null,
-            ],
-            'Investor' => [
-                'categories' => $this->getInvestorCategories(),
-                'expensesCategory' => null,
-            ],
-            'Parent' => [
-                'categories' => $this->getParentCategories(),
-                'expensesCategory' => null,
-            ],
-            'Couple' => [
-                'categories' => $this->getCoupleCategories(),
-                'expensesCategory' => null,
-            ],
-            default => [
-                'categories' => [],
-                'expensesCategory' => null,
-            ],
-        };
+        switch ($profileType) {
+            case 'Student':
+                return [
+                    'categories' => $this->getStudentCategories(),
+                    'expensesCategory' => null,
+                ];
+            case 'Traveler':
+                return [
+                    'categories' => $this->getTravelerCategories(),
+                    'expensesCategory' => null,
+                ];
+            case 'Investor':
+                return [
+                    'categories' => $this->getInvestorCategories(),
+                    'expensesCategory' => null,
+                ];
+            case 'Parent':
+                return [
+                    'categories' => $this->getParentCategories(),
+                    'expensesCategory' => null,
+                ];
+            case 'Couple':
+                return [
+                    'categories' => $this->getCoupleCategories(),
+                    'expensesCategory' => null,
+                ];
+            default:
+                return [];
+        }
     }
-
+    // Ici on génère les catégories de dépenses pour Student et on fait pareil pour les autres types de profils
     private function getStudentCategories(): array
     {
         return [

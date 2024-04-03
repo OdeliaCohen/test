@@ -131,11 +131,13 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
 
 
 
+
+
         <button type=\"submit\" class=\"btn btn-primary\">Register</button>
 
         ";
-        // line 70
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 70, $this->source); })()), 'form_end');
+        // line 72
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 72, $this->source); })()), 'form_end');
         echo "
 
 
@@ -180,7 +182,7 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
      */
     public function getDebugInfo()
     {
-        return array (  138 => 70,  130 => 64,  128 => 59,  124 => 58,  120 => 57,  116 => 56,  97 => 40,  90 => 35,  82 => 32,  79 => 31,  77 => 30,  70 => 26,  43 => 1,);
+        return array (  140 => 72,  130 => 64,  128 => 59,  124 => 58,  120 => 57,  116 => 56,  97 => 40,  90 => 35,  82 => 32,  79 => 31,  77 => 30,  70 => 26,  43 => 1,);
     }
 
     public function getSourceContext()
@@ -249,6 +251,8 @@ class __TwigTemplate_314ccdc0c3a227cb12d692ee787ff40b extends Template
                 'placeholder': 'Enter your budget in \$...',
             }
         }) }}
+
+
 
 
 
