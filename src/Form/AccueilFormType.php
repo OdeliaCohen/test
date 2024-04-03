@@ -18,6 +18,9 @@ class AccueilFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        //par défaut, le type de profil est 'Student' si l'utilisateur n'a pas encore choisi de type de profil,
+        // c'était juste pour éviter d'avoir une erreur du type "null"
+        //sauf que l'erreur n'est pas réglée
         $profileType = $options['data']->getProfileType() ?? 'Student';
 
         $builder
@@ -46,7 +49,7 @@ class AccueilFormType extends AbstractType
 
 }
 
-
+    //ici c'est juste pour éviter d'avoir toute la liste des types de profils dans le form
     public function profileType(): array
     {
         return [
