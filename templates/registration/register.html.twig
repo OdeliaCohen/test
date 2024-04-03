@@ -42,8 +42,8 @@
         }
 
         .custom-form {
-            margin-left: 300px;
-            margin-right: 300px;
+            margin-left: 375px;
+            margin-right: 375px;
         }
     </style>
 {% endblock %}
@@ -74,11 +74,11 @@
 
     <div class="custom-form">
         <form method="post">
-            {{ form_row(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
-            {{ form_row(registrationForm.lastName, {'attr': {'class': 'form-control'}}) }}
-            {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-            {{ form_row(registrationForm.age, {'attr': {'class': 'form-control', 'min': 0}}) }}
-            {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control'}, 'label': 'Password'}) }}
+            {{ form_row(registrationForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Sara'}}) }}
+            {{ form_row(registrationForm.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Ben'}}) }}
+            {{ form_row(registrationForm.age, {'attr': {'class': 'form-control', 'min': 0, 'placeholder': '18'}}) }}
+            {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'saro@gmail.com'}}) }}
+            {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': '·······'}, 'label': 'Password'}) }}
             {{ form_row(registrationForm.AgreeTerms) }}
             {{ form_row(registrationForm._token) }}
 
