@@ -35,24 +35,25 @@ class ProfileController extends AbstractController{
         $form = $this->createForm(AccueilFormType::class, $profile);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $profile->addUser($user);
             $profileType = $form->getData()->getProfileType();
             if ($user->getProfiles()->exists(function ($key, $profile) use ($profileType) {
                 return $profile->getProfileType() === $profileType;
             })) {
                 // Add an error message to the form
-                $form->addError(new FormError('You already have this type of profile!'));
+                $form->addError(new FormError('A user cannot have two profiles of the same type.'));
                 return $this->render('profile/profile.html.twig', [
                     'controller_name' => 'ProfileController',
                     'form' => $form->createView(),
                 ]);
             }
 
+            $user->addProfile($profile);
             $entityManager->persist($profile);
             $entityManager->flush();
 
-            // Redirect the user to the appropriate page
-            switch ($form->getData()->getProfileType()) {
+            $formData = $form->getData();
+
+            switch ($profileType) {
                 case 'Student':
                     return $this->redirectToRoute('budget_student');
                 case 'Traveler':
@@ -67,7 +68,6 @@ class ProfileController extends AbstractController{
                     return $this->redirectToRoute('budget_accueil');
             }
         }
-
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'form' => $form->createView(),
