@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\AccueilFormType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,13 +20,18 @@ use Symfony\Component\Form\FormTypeInterface;
 
 class UserController extends AbstractController
 {
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     #[Route('/useraccount', name: 'budget_useraccount')]
     public function useraccount(Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             $user = $this->getUser();
-            // Récupérer tous les profils associés à l'utilisateur
-            $profiles = $user->getProfiles();
+            $user->getProfiles();
             return $this->render('user/useraccount.html.twig', [
                 'controller_name' => 'UserController',
                 'user' => $user,
@@ -37,23 +43,10 @@ class UserController extends AbstractController
     #[Route('/useraccount/deleteUser', name: 'budget_delete_user')]
     public function deleteUserAndProfiles(Request $request, TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager): Response
     {
-        $entityManager->getFilters()->enable('softdeleteable');
         $user = $this->getUser();
-
-        if ($user) {
-            $user->setEmailValid(null);
-            $entityManager->flush();
-            $entityManager->remove($user);
-            for ($i = 0; $i < count($user->getProfiles()); $i++) {
-                $profile = $user->getProfiles()[$i];
-                $entityManager->remove($profile);
-
-            }
-
-            $entityManager->flush();
-            $request->getSession()->invalidate();
-            $tokenStorage->setToken(null);
-
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+            $this->userService->deleteUserProfiles($user, $entityManager);
+            $this->userService->invalidateSessionAndToken($request->getSession(), $tokenStorage);
             return $this->redirectToRoute('home');
         }
 

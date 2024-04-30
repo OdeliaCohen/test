@@ -32,7 +32,7 @@
             },
             "time": "2024-02-05T17:02:44+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "DoctrineExtensions\\": "src/"
@@ -93,7 +93,7 @@
                     "dev-master": "1.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Behat\\Transliterator\\": "src/Behat/Transliterator"
@@ -524,7 +524,7 @@
             },
             "time": "2023-11-24T11:18:31+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Common\\DataFixtures\\": "src"
@@ -893,7 +893,7 @@
             },
             "time": "2023-11-19T12:48:54+00:00",
             "type": "symfony-bundle",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Bundle\\FixturesBundle\\": ""
@@ -1876,7 +1876,7 @@
                     "dev-main": "3.13-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Gedmo\\": "src/"
@@ -4406,7 +4406,7 @@
                     "dev-main": "1.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Stof\\DoctrineExtensionsBundle\\": "src"
